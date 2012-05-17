@@ -3,7 +3,8 @@ var vm = require('vm');
 
 var debug;
 
-var emit_stats = function (socket, metrics) {
+var emit_stats = function (socket, ts, metrics) {
+  socket.emit('timestamp', ts);
   socket.get('stats', function (err, stats) {
     stats.forEach(function (stat) {
       if (stat == 'all') {
@@ -26,11 +27,19 @@ exports.init = function (startup_time, config, events) {
   }
 
   var io = require('socket.io').listen(config.socketPort);
+
+  if (debug) {
+    io.set('log level', 4);
+  }
+  else {
+    io.set('log level', 1)
+  }
+
   io.sockets.on('connection', function (socket) {
     socket.set('stats', []);
 
     var emitter = function (ts, metrics) {
-      emit_stats(socket, metrics);
+      emit_stats(socket, ts, metrics);
     };
     events.on('flush', emitter);
 
