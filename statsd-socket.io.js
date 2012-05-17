@@ -8,7 +8,7 @@ var emit_stats = function (socket, ts, metrics) {
 
   //Convert dot separated metrics into nested object
   ['gauges','timers','counters'].forEach(function (metric_type) {
-    metrics[metric_type] = deepen(metrics[metric_type])[metric_type] || {};
+    metrics[metric_type] = deepen(metrics[metric_type]) || {};
   });
 
   socket.get('stats', function (err, stats) {
