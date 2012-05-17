@@ -1,0 +1,18 @@
+{
+  "name": "statsd-socket.io",
+  "description": "StatsD backend to emit stats over socket.io",
+  "version": "0.0.1",
+  "author": "Chatham <oss@chathamfinancial.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Chatham/statsd-socket.io.git"
+  },
+  "main": "statsd-socket.io.js",
+  "dependencies": {
+    "socket.io": "0.9.x"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
