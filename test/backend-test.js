@@ -12,7 +12,7 @@ var sock = null;
 var dummy_metrics = {
   gauges: {
     "server.ABC.cpu": 111,
-    "server.ABC.mem": 222,
+    "server.ABC.mem": 222
   },
   counters: {
     "counter.abc": 333,
@@ -133,14 +133,14 @@ suite.addBatch({
 });
 
 suite.addBatch({
-  'connect client to socket': {
+  'connect client to backend socket': {
     topic: function () {
       sock = socket_client.connect('http://127.0.0.1:' + testport);
       sock.on('connect', this.callback);
     },
 
     'connected': function () {
-      assert(true, 'Connected');
+      //Connected successfully
     }
   }
 });
@@ -149,10 +149,6 @@ suite.addBatch({
   'subscribe to stat': {
     topic: function () {
       sock.emit('subscribe', 'teststat', this.callback);
-    },
-
-    'responds is string': function (rsp) {
-      assert.isString(rsp);
     },
 
     'response string is expected text': function (rsp) {
@@ -167,10 +163,6 @@ suite.addBatch({
       sock.emit('unsubscribe', 'teststat', this.callback);
     },
 
-    'response is string': function (rsp) {
-      assert.isString(rsp);
-    },
-
     'response string is expected text': function (rsp) {
       assert.equal(rsp, 'unsubscribed teststat');
     }
@@ -181,10 +173,6 @@ suite.addBatch({
   'unsubscribe from non-existent stat': {
     topic: function () {
       sock.emit('unsubscribe', 'bogusstat', this.callback);
-    },
-
-    'response is string': function (rsp) {
-      assert.isString(rsp);
     },
 
     'response string is expected text': function (rsp) {

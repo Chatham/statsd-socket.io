@@ -12,6 +12,7 @@ To simply install the module, just run:
 ```
 ## Requirements
 * [StatsD](https://github.com/etsy/statsd) >= v0.3.0
+* [node.js](http://nodejs.org/) >= v0.6.0
 
 ## Configuration
 To add this backend to the [StatsD](https://github.com/etsy/statsd) daemon, simply add the following settings to you [StatsD](https://github.com/etsy/statsd) configuration file:

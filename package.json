@@ -1,7 +1,7 @@
 {
   "name": "statsd-socket.io",
   "description": "StatsD backend to emit stats over socket.io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Chatham Financial Corp <oss@chathamfinancial.com>",
   "maintainers": [
     "Chris Hoffman <choffman@chathamfinancial.com>"
@@ -23,6 +23,6 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">= 0.4.0"
+    "node": ">= 0.6.0"
   }
 }
