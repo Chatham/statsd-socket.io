@@ -10,9 +10,11 @@ To simply install the module, just run:
 ```bash
   $ npm install statsd-socket.io
 ```
+## Requirements
+* [StatsD](https://github.com/etsy/statsd) >= v0.3.0
 
 ## Configuration
-To add this backend to the StatsD daemon, simply add the following settings to you StatsD configuration file:
+To add this backend to the [StatsD](https://github.com/etsy/statsd) daemon, simply add the following settings to you [StatsD](https://github.com/etsy/statsd) configuration file:
 
 ```js
 {
@@ -20,7 +22,7 @@ To add this backend to the StatsD daemon, simply add the following settings to y
   backends: ['statsd-socket.io']
 }
 ```
-* __NOTE:__ If you want to keep the graphite backend installed, you need to include './backends/graphite' in the backends array
+__NOTE:__ If you want to keep the graphite backend installed, you need to include `'./backends/graphite'` in the backends array
 
 ## Example Usage
 
