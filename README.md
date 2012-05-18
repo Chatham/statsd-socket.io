@@ -14,7 +14,7 @@ To simply install the module, just run:
 ## Configuration
 To add this backend to the StatsD daemon, simply add the following settings to you StatsD configuration file:
 
-```js
+``` js
 {
   socketPort: <port>,
   backends: ['statsd-socket.io']
@@ -23,7 +23,7 @@ To add this backend to the StatsD daemon, simply add the following settings to y
 * __NOTE:__ If you want to keep the graphite backend installed, you need to include './backends/graphite' in the backends array
 
 ## Example Usage
-'''js
+''' js
 var socket = require('socket.io-client').connect('http://localhost:5555')
 socket.on('connect', function () {
   socket.emit('subscribe', 'all');
@@ -41,6 +41,6 @@ socket.on('gauges.server.cpu', function (data) {
 
 ## Tests
 To run the tests:
-'''js
+''' js
 npm test
 '''
