@@ -23,6 +23,7 @@ To add this backend to the StatsD daemon, simply add the following settings to y
 * __NOTE:__ If you want to keep the graphite backend installed, you need to include './backends/graphite' in the backends array
 
 ## Example Usage
+
 ''' js
 var socket = require('socket.io-client').connect('http://localhost:5555')
 socket.on('connect', function () {
@@ -41,6 +42,7 @@ socket.on('gauges.server.cpu', function (data) {
 
 ## Tests
 To run the tests:
+
 ''' js
 npm test
 '''
