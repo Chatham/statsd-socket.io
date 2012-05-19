@@ -1,11 +1,11 @@
 # statsd-socket.io [![Build Status](https://secure.travis-ci.org/Chatham/statsd-socket.io.png?branch=master)](http://travis-ci.org/Chatham/statsd-socket.io)
 
-[StatsD](https://github.com/etsy/statsd) backend to emit stats over [socket.io](http://socket.io/)
+[StatsD](https://github.com/etsy/statsd) backend to emit stats over [socket.io](http://socket.io/). This backend allows you to subscribe to individual stats, groups of stats, or all stats and handle them in real time.
 
 ## Installation
-There are a few ways to install `statsd-socket.io` to be used with StatsD. You can add it to the StatsD `package.json` and run `npm install`.
+There are a few ways to install `statsd-socket.io` to be used as a [StatsD](https://github.com/etsy/statsd) backend. You can add it to the StatsD `package.json` and run `npm install`.
 
-To simply install the module, just run:
+The simplest way to install the module is to run:
 
 ```bash
   $ npm install statsd-socket.io
@@ -15,20 +15,18 @@ To simply install the module, just run:
 * [node.js](http://nodejs.org/) >= v0.6.0
 
 ## Configuration
-To add this backend to the [StatsD](https://github.com/etsy/statsd) daemon, simply add the following settings to you [StatsD](https://github.com/etsy/statsd) configuration file:
-
+To add this backend to the [StatsD](https://github.com/etsy/statsd) daemon, simply add the following settings to the [StatsD](https://github.com/etsy/statsd) configuration file:
 ```js
 {
-  socketPort: <port>,
+  socketPort: 8000,
   backends: ['statsd-socket.io']
 }
 ```
-__NOTE:__ If you want to keep the graphite backend installed, you need to include `'./backends/graphite'` in the backends array
+If you want to keep the graphite backend installed, you need to include `'./backends/graphite'` in the backends configuration.
 
-## Example Usage
-
+## Usage
 ```js
-var socket = require('socket.io-client').connect('http://localhost:5555')
+var socket = require('socket.io-client').connect('http://localhost:8000')
 socket.on('connect', function () {
   socket.emit('subscribe', 'all');
   socket.emit('subscribe', 'gauges.server.cpu');
@@ -42,10 +40,10 @@ socket.on('gauges.server.cpu', function (data) {
   console.log('Server CPU:' + data);
 });
 ```
+This example shows using [socket.io](http://socket.io/) on the server side but can just as easily be implemented on the client side. See the [socket.io](http://socket.io/) documentation for more information. 
 
 ## Tests
 To run the tests:
-
 ```js
 npm test
 ```
