@@ -26,7 +26,7 @@ If you want to keep the graphite backend installed, you need to include `'./back
 
 ## Usage
 ```js
-var socket = require('socket.io-client').connect('http://localhost:8000')
+var socket = require('socket.io-client').connect('http://localhost:8000');
 socket.on('connect', function () {
   socket.emit('subscribe', 'all');
   socket.emit('subscribe', 'gauges.server.cpu');
