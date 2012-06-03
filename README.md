@@ -36,11 +36,24 @@ socket.on('all', function (data) {
   console.log('ALL:' + data);
 });
 
+// Retrieve a single stat
 socket.on('gauges.server.cpu', function (data) {
   console.log('Server CPU:' + data);
 });
+
+// Retrieve a groups of stats
+socket.on('gauges', function (data) {
+  console.log(JSON.stringify(data));
+});
+
+// Supports wildcards
+socket.on('gauges.*.cpu', function (data) {
+  for (var server in data.gauges) {
+    console.log(server + ' CPU:' + data);
+  }
+});
 ```
-This example shows using [socket.io](http://socket.io/) on the server side but can just as easily be implemented on the client side. See the [socket.io](http://socket.io/) documentation for more information. 
+This example shows using [socket.io](http://socket.io/) on the server side but can just as easily be implemented on the client side. See the [socket.io](http://socket.io/) documentation for more information.
 
 ## Tests
 To run the tests:
