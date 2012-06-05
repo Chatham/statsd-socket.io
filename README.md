@@ -29,21 +29,24 @@ If you want to keep the graphite backend installed, you need to include `'./back
 var socket = require('socket.io-client').connect('http://localhost:8000');
 socket.on('connect', function () {
   socket.emit('subscribe', 'all');
-  socket.emit('subscribe', 'gauges.server.cpu');
+  socket.emit('subscribe', 'timers');
+  socket.emit('subscribe', 'gauges.server1.cpu');
+  socket.emit('subscribe', 'gauges.*.cpu');
 });
 
+// Retrieve all stats
 socket.on('all', function (data) {
   console.log('ALL:' + data);
 });
 
-// Retrieve a single stat
-socket.on('gauges.server.cpu', function (data) {
-  console.log('Server CPU:' + data);
+// Retrieve a groups of stats
+socket.on('timers', function (data) {
+  console.log(JSON.stringify(data));
 });
 
-// Retrieve a groups of stats
-socket.on('gauges', function (data) {
-  console.log(JSON.stringify(data));
+// Retrieve a single stat
+socket.on('gauges.server1.cpu', function (data) {
+  console.log('Server1 CPU:' + data);
 });
 
 // Supports wildcards
