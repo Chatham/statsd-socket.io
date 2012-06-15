@@ -52,7 +52,7 @@ socket.on('gauges.server1.cpu', function (data) {
 // Supports wildcards
 socket.on('gauges.*.cpu', function (data) {
   for (var server in data.gauges) {
-    console.log(server + ' CPU:' + data);
+    console.log(server + ' CPU:' + data.gauges[server]['cpu']);
   }
 });
 ```
