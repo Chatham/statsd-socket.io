@@ -13,7 +13,8 @@ var dummy_metrics = {
   gauges: {
     "server.ABC.cpu": 111,
     "server.ABC.mem": 222,
-    "server.ZYX.cpu": 333
+    "server.ZYX.cpu": 333,
+    "server.123.abc": 444
   },
   counters: {
     "counter.abc": 333,
@@ -33,6 +34,9 @@ var dummy_emit_metrics = {
       },
       "ZYX": {
         "cpu": 333
+      },
+      "123": {
+        "abc": 444
       }
     }
   },
@@ -224,6 +228,28 @@ suite.addBatch({
       'capture metrics': function (data) {
         sock.emit('unsubscribe', 'gauges.server.ABC');
         assert.deepEqual(data, dummy_emit_metrics.gauges.server.ABC);
+      }
+    }
+  }
+});
+
+suite.addBatch({
+  'get flush of nested numeric key metric': {
+    topic: function () {
+      sock.emit('subscribe', 'gauges.server.123', this.callback);
+    },
+
+    '[gauges.server.123]': {
+      topic: function () {
+        sock.on('gauges.server.123', this.callback);
+
+        var ts = get_timestamp();
+        flush(ts, dummy_metrics);
+      },
+
+      'capture metrics': function (data) {
+        sock.emit('unsubscribe', 'gauges.server.123');
+        assert.deepEqual(data, dummy_emit_metrics.gauges.server['123']);
       }
     }
   }
