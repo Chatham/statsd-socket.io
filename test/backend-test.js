@@ -14,11 +14,15 @@ var dummy_metrics = {
     "server.ABC.cpu": 111,
     "server.ABC.mem": 222,
     "server.ZYX.cpu": 333,
-    "server.123.abc": 444
+    "server.123.cpu": 444,
+    "server.d5460a00-f0ff-11e2-954a-0002a5d5c51b.f81d4fae-7dec-11d0-a765-00a0c91e6bf6.cpu": 987,
+    "server.d5460a00-f0ff-11e2-954a-0002a5d5c51b.f81d4fae-7dec-11d0-a765-00a0c91e6bf6.mem": 999
   },
   counters: {
     "counter.abc": 333,
-    "counter.zxy": 444
+    "counter.zxy": 444,
+    "counter.abc-123-zyx": 123,
+    "counter1.123": 321
   },
   timers: {
     "timer.abc": [0, 1]
@@ -36,14 +40,24 @@ var dummy_emit_metrics = {
         "cpu": 333
       },
       "123": {
-        "abc": 444
+        "cpu": 444
+      },
+      "d5460a00-f0ff-11e2-954a-0002a5d5c51b": {
+        "f81d4fae-7dec-11d0-a765-00a0c91e6bf6": {
+          "cpu": 987,
+          "mem": 999
+        }
       }
     }
   },
   "counters": {
     "counter": {
       "abc": 333,
-      "zxy": 444
+      "zxy": 444,
+      "abc-123-zyx": 123
+    },
+    "counter1":{
+      "123": 321
     }
   },
   "timers": {
@@ -256,6 +270,29 @@ suite.addBatch({
 });
 
 suite.addBatch({
+  'get flush of nested uuid key metric': {
+    topic: function () {
+      sock.emit('subscribe', 'gauges.server.d5460a00-f0ff-11e2-954a-0002a5d5c51b', this.callback);
+    },
+
+    '[gauges.server.d5460a00-f0ff-11e2-954a-0002a5d5c51b]': {
+      topic: function () {
+        sock.on('gauges.server.d5460a00-f0ff-11e2-954a-0002a5d5c51b', this.callback);
+
+        var ts = get_timestamp();
+        flush(ts, dummy_metrics);
+      },
+
+      'capture metrics': function (data) {
+        sock.emit('unsubscribe', 'gauges.server.d5460a00-f0ff-11e2-954a-0002a5d5c51b');
+        assert.deepEqual(data, dummy_emit_metrics.gauges.server['d5460a00-f0ff-11e2-954a-0002a5d5c51b']);
+      }
+    }
+  }
+});
+
+
+suite.addBatch({
   'get flush of metric that does not exist': {
     topic: function () {
       sock.emit('subscribe', 'bogusstat', this.callback);
@@ -283,7 +320,7 @@ suite.addBatch({
       sock.emit('subscribe', 'gauges.server.*.cpu', this.callback);
     },
 
-    '[gauges.server.*.cpu]': {
+    '[gauges.server.\*.cpu]': {
       topic: function () {
         sock.on('gauges.server.*.cpu', this.callback);
 
@@ -301,6 +338,43 @@ suite.addBatch({
               },
               'ZYX': {
                 'cpu': dummy_emit_metrics.gauges.server.ZYX.cpu
+              },
+              '123': {
+                'cpu': dummy_emit_metrics.gauges.server['123']['cpu']
+              }
+            }
+          }
+        };
+
+        assert.deepEqual(data, expected);
+      }
+    }
+  }
+});
+
+suite.addBatch({
+  'get metric for wildcard search with uuid key': {
+    topic: function () {
+      sock.emit('subscribe', 'gauges.server.d5460a00-f0ff-11e2-954a-0002a5d5c51b.*.cpu', this.callback);
+    },
+
+    '[gauges.server.d5460a00-f0ff-11e2-954a-0002a5d5c51b.\*.cpu]': {
+      topic: function () {
+        sock.on('gauges.server.d5460a00-f0ff-11e2-954a-0002a5d5c51b.*.cpu', this.callback);
+
+        var ts = get_timestamp();
+        flush(ts, dummy_metrics);
+      },
+
+      'capture metrics': function (data) {
+        sock.emit('unsubscribe', 'gauges.server.d5460a00-f0ff-11e2-954a-0002a5d5c51b.*.cpu');
+        var expected = {
+          'gauges': {
+            'server': {
+              'd5460a00-f0ff-11e2-954a-0002a5d5c51b': {
+                'f81d4fae-7dec-11d0-a765-00a0c91e6bf6': {
+                  'cpu': dummy_emit_metrics.gauges.server['d5460a00-f0ff-11e2-954a-0002a5d5c51b']['f81d4fae-7dec-11d0-a765-00a0c91e6bf6']['cpu']
+                }
               }
             }
           }
