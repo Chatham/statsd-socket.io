@@ -157,7 +157,7 @@ suite.addBatch({
 suite.addBatch({
   'connect client to backend socket': {
     topic: function () {
-      sock = socket_client('http://127.0.0.1:' + testport);
+      sock = socket_client.connect('http://127.0.0.1:' + testport);
       sock.on('connect', this.callback);
     },
 
