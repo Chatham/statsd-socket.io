@@ -1,7 +1,7 @@
 {
   "name": "statsd-socket.io",
   "description": "StatsD backend to emit stats over socket.io",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "Chatham Financial Corp <oss@chathamfinancial.com>",
   "maintainers": [
     "Chris Hoffman <choffman@chathamfinancial.com>"
@@ -15,11 +15,11 @@
     "test": "vows --spec"
   },
   "dependencies": {
-    "socket.io": "0.9.x"
+    "socket.io": "1.0.x"
   },
   "devDependencies": {
     "vows": "0.7.x",
-    "socket.io-client": "0.9.x"
+    "socket.io-client": "1.0.x"
   },
   "license": "MIT",
   "engines": {
